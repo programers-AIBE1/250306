@@ -1,15 +1,20 @@
 package service.searchapi;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import model.dto.SearchResult;
+import model.dto.APIClientParam;
+import model.dto.NaverAPIResult;
+import util.api.APIClient;
 import util.logger.MyLogger;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
-public class NaverSearchAPI implements SearchAPI {
+public class NaverSearchAPI {
     private final String clientID;
     private final String clientSecret;
     private final MyLogger logger;
+    private final APIClient apiClient;
 
     public NaverSearchAPI() {
         Dotenv dotenv = Dotenv.load();
@@ -19,11 +24,17 @@ public class NaverSearchAPI implements SearchAPI {
             throw new RuntimeException("NaverSearchAPI: clientID or clientSecret are missing");
         }
         this.logger = new MyLogger(NaverSearchAPI.class);
-
+        this.apiClient = new APIClient();
+        logger.info("NaverSearchAPI initailized");
     }
 
-    @Override
-    public List<SearchResult> searchByKeyword(String keyword) {
-        return List.of();
+    public List<NaverAPIResult> searchByKeyword(String keyword) throws IOException, InterruptedException {
+        HashMap<String, String> body = new HashMap<>();
+        APIClientParam param = new APIClientParam(
+                "", "", body
+                // , headers
+        );
+        apiClient.callAPI(param);
+        return null;
     }
 }
