@@ -39,3 +39,6 @@ build/
 
 ### dotenv ###
 .env
+
+### test file ###
+.xlsx
