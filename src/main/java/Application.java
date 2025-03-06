@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import service.searchapi.SearchService;
+import service.search.SearchService;
 import util.logger.MyLogger;
 
 import java.io.FileOutputStream;

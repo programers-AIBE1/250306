@@ -1,4 +1,4 @@
-package service.searchapi;
+package service.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
