@@ -1,15 +1,13 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import model.dto.NaverAPIResult;
 import model.dto.NaverAPIResultItem;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import service.searchapi.NaverSearchAPI;
+import service.searchapi.SearchService;
 import util.logger.MyLogger;
 
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
 import java.util.List;
 
 public class Application {
@@ -18,8 +16,18 @@ public class Application {
         MyLogger logger = new MyLogger(Application.class);
         String searchKeyword = dotenv.get("SEARCH_KEYWORD");
         //logger.info(searchKeyword);
-        NaverSearchAPI api = new NaverSearchAPI();
-        try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream("%d_%s.xlsx".formatted(System.currentTimeMillis(), searchKeyword))) {
+        SearchService api = new SearchService();
+        String filename = "%d_%s";
+        String mode = dotenv.get("MODE");
+        if (mode.isBlank()) {
+            throw new RuntimeException("mode is missing");
+        }
+        switch (mode) {
+            case "DEV":
+                filename += "_dev";
+                break;
+        }
+        try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream(filename.formatted(System.currentTimeMillis(), searchKeyword) + ".xlsx")) {
             List<NaverAPIResultItem> result = api.searchByKeyword(searchKeyword);
 //            logger.info(result.toString());
             Sheet sheet = workbook.createSheet(searchKeyword);
@@ -37,7 +45,6 @@ public class Application {
                 row.createCell(3).setCellValue(item.description());
             }
             workbook.write(fileOut);
-
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
