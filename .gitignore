@@ -41,4 +41,4 @@ build/
 .env
 
 ### test file ###
-.xlsx
+*.xlsx
